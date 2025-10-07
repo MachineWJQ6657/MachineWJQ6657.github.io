@@ -1,0 +1,35 @@
+name: Deploy VitePress site to GitHub Pages
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. 拉取你的代码
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2. 安装 Node.js 环境
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18 # 推荐使用 LTS 版本
+          cache: "npm" # 缓存依赖，加快后续构建速度
+
+      # 3. 安装项目依赖
+      - name: Install dependencies
+        run: npm install
+
+      # 4. 执行 VitePress 构建
+      - name: Build
+        run: npm run docs:build
+
+      # 5. 将构建好的网站部署到 GitHub Pages
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # VitePress 构建的输出目录
+          publish_dir: docs/.vitepress/dist
