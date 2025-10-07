@@ -1,7 +1,7 @@
 name: Deploy VitePress site to GitHub Pages
 on:
   push:
-    branches: [main]
+    branches: [main] # 确保这是您的主分支名
 
 jobs:
   deploy:
@@ -15,21 +15,23 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18 # 推荐使用 LTS 版本
-          cache: "npm" # 缓存依赖，加快后续构建速度
+          node-version: 18
+          cache: "npm"
 
       # 3. 安装项目依赖
       - name: Install dependencies
         run: npm install
 
-      # 4. 执行 VitePress 构建
+      # 4. 执行 VitePress 构建 (并设置正确的 base 路径)
       - name: Build
-        run: npm run docs:build
+        # 这里的 --base 是一个保险措施，它会覆盖配置文件中的设置
+        # 请把 'Your-Repo-Name' 替换成你的仓库名
+        run: npm run docs:build -- --base /MachineWJQ6657.github.io/
 
-      # 5. 将构建好的网站部署到 GitHub Pages
+      # 5. 将构建好的网站部署到 gh-pages 分支
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          # VitePress 构建的输出目录
+          # 确认 VitePress 构建的输出目录是这个
           publish_dir: docs/.vitepress/dist
