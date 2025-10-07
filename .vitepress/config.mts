@@ -4,6 +4,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "6657 Fan Club",
   description: "A VitePress powered personal website",
+  base: "/MachineWJQ6657.github.io/",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
