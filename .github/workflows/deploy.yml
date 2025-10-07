@@ -20,11 +20,12 @@ jobs:
         run: npm install
 
       - name: Build
-        # 修改这里！对于用户主页，base 路径应该是根目录 '/'
-        run: npm run docs:build -- --base /
+        # 这个命令现在会正确地构建 docs 文件夹里的内容
+        run: npm run docs:build
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          # 这个发布目录现在是完全正确的
           publish_dir: docs/.vitepress/dist
