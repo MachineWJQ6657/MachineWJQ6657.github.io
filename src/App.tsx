@@ -26,7 +26,6 @@ import {
 
 // Firebase Imports
 import { initializeApp } from 'firebase/app';
-import { getAnalytics } from "firebase/analytics"; // Added Analytics import
 import { 
   getAuth, 
   signInWithCustomToken, 
@@ -47,6 +46,8 @@ import {
   serverTimestamp,
 } from 'firebase/firestore';
 
+declare const __initial_auth_token: string | undefined;
+
 const firebaseConfig = {
   apiKey: "AIzaSyBlQdNWxuD2uDrnf1FEw47UUS7yRWcutZA",
   authDomain: "personal-web-9ff9e.firebaseapp.com",
@@ -62,9 +63,7 @@ const app = initializeApp(firebaseConfig);
 
 // Initialize Services (博客功能必须)
 const auth = getAuth(app);
-const db = getFirestore(app);
-// 如果不需要 Analytics 可以注释掉下面这行
-// const analytics = getAnalytics(app); 
+const db = getFirestore(app); 
 
 // Local App ID for database path isolation
 const appId = 'my-personal-blog'; 
@@ -209,7 +208,7 @@ const MarkdownRenderer = ({ content }: { content: string }) => {
     });
   };
 
-  const elements: JSX.Element[] = [];
+  const elements: React.ReactNode[] = [];
   const lines = content.split('\n');
   let inCodeBlock = false;
   let codeBlockContent: string[] = [];
