@@ -4,52 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document Title</title>
-    
-    <link rel="stylesheet" href="style.css">
+    <title>Under Construction</title>
     
     <style>
-        /* Internal CSS for basic layout */
         body {
             font-family: sans-serif;
             margin: 0;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            /* 居中内容展示 */
+            justify-content: center;
+            align-items: center;
+            text-align: center;
         }
         main {
-            flex: 1;
             padding: 20px;
         }
-        footer {
-            text-align: center;
-            padding: 10px;
-            background: #f0f0f0;
+
+        /* 关键：隐藏访客地图的显示区域 */
+        #mapmyvisitors, 
+        a[href*="mapmyvisitors"], 
+        img[src*="mapmyvisitors"] {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
         }
     </style>
 </head>
 <body>
 
-    <!-- <header>
-        <nav>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </nav>
-    </header> -->
-
     <main>
-        <h1>You are scammed!</h1>
-        <p>This is a dummy website. (The official website is still under construction.)</p>
+        <h1>Under Construction</h1>
+        <p>This is a dummy website. The official website is still under construction.</p>
     </main>
-
-    <!-- <footer>
-        <p>&copy; 2026 Your Name</p>
-    </footer> -->
-
-    <script src="script.js"></script>
 
     <script type="text/javascript" id="mapmyvisitors" src="//mapmyvisitors.com/map.js?d=qQyUp5LMF9D9Qs2UnxUX8-zZFFVyxrRNhziJAbOOqMM&cl=ffffff&w=a"></script>
 </body>
