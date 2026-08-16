@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { PortfolioView } from "../../components/PortfolioView";
-import { sanitizeSiteData, type SiteData, type SiteExperience, type SiteProject } from "../../lib/site-content";
+import { sanitizeSiteData, type SiteData, type SiteExperience, type SitePost, type SiteProject } from "../../lib/site-content";
 
-type Tab = "basics" | "projects" | "experience" | "design" | "advanced";
+type Tab = "basics" | "writing" | "projects" | "experience" | "design" | "advanced";
 type SaveState = "idle" | "saving" | "saved" | "error";
 
 const uid = (prefix: string) => `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
@@ -78,6 +78,9 @@ export function Studio({ initialData, userName }: { initialData: SiteData; userN
   const updateProject = (id: string, patch: Partial<SiteProject>) =>
     update((current) => ({ ...current, projects: current.projects.map((item) => item.id === id ? { ...item, ...patch } : item) }));
 
+  const updatePost = (id: string, patch: Partial<SitePost>) =>
+    update((current) => ({ ...current, posts: current.posts.map((item) => item.id === id ? { ...item, ...patch } : item) }));
+
   const updateExperience = (id: string, patch: Partial<SiteExperience>) =>
     update((current) => ({ ...current, experience: current.experience.map((item) => item.id === id ? { ...item, ...patch } : item) }));
 
@@ -110,7 +113,7 @@ export function Studio({ initialData, userName }: { initialData: SiteData; userN
         <aside className="studio-panel">
           <nav className="studio-tabs" aria-label="编辑分区">
             {([
-              ["basics", "基本信息"], ["projects", "项目"], ["experience", "经历"], ["design", "设计"], ["advanced", "高级"],
+              ["basics", "基本信息"], ["writing", "文章"], ["projects", "项目"], ["experience", "经历"], ["design", "设计"], ["advanced", "高级"],
             ] as Array<[Tab, string]>).map(([key, label]) => <button className={tab === key ? "is-active" : ""} key={key} onClick={() => switchTab(key)}>{label}</button>)}
           </nav>
 
@@ -132,11 +135,26 @@ export function Studio({ initialData, userName }: { initialData: SiteData; userN
               </EditorSection>
               <EditorSection title="页面文案" description="自由改变网站的语气与表达。">
                 <Field label="滚动宣言"><input value={data.copy.manifesto} onChange={(event) => setCopy("manifesto", event.target.value)} /></Field>
+                <Field label="文章区标题"><input value={data.copy.writingTitle} onChange={(event) => setCopy("writingTitle", event.target.value)} /></Field>
                 <Field label="关于标题"><textarea rows={3} value={data.copy.aboutTitle} onChange={(event) => setCopy("aboutTitle", event.target.value)} /></Field>
                 <Field label="关于正文"><textarea rows={8} value={data.copy.aboutBody} onChange={(event) => setCopy("aboutBody", event.target.value)} /></Field>
                 <Field label="联系标题"><textarea rows={3} value={data.copy.contactTitle} onChange={(event) => setCopy("contactTitle", event.target.value)} /></Field>
               </EditorSection>
             </>}
+
+            {tab === "writing" && <EditorSection title="Blog posts" description="文章会按这里的顺序展示；关闭 Published 可暂时隐藏。">
+              {data.posts.map((post, index) => <div className="repeat-card" key={post.id}>
+                <div className="repeat-title"><strong>Post {String(index + 1).padStart(2, "0")}</strong><button onClick={() => update((current) => ({ ...current, posts: current.posts.filter((item) => item.id !== post.id) }))}>删除</button></div>
+                <Field label="Title"><input value={post.title} onChange={(event) => updatePost(post.id, { title: event.target.value })} /></Field>
+                <Field label="URL slug"><input value={post.slug} onChange={(event) => updatePost(post.id, { slug: event.target.value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") })} /><Hint>Use lowercase English letters, numbers, and hyphens.</Hint></Field>
+                <div className="field-row"><Field label="Category"><input value={post.category} onChange={(event) => updatePost(post.id, { category: event.target.value })} /></Field><Field label="Date"><input value={post.date} onChange={(event) => updatePost(post.id, { date: event.target.value })} /></Field></div>
+                <Field label="Reading time"><input value={post.readingTime} onChange={(event) => updatePost(post.id, { readingTime: event.target.value })} /></Field>
+                <Field label="Excerpt"><textarea rows={4} value={post.excerpt} onChange={(event) => updatePost(post.id, { excerpt: event.target.value })} /></Field>
+                <Field label="Article"><textarea rows={12} value={post.content} onChange={(event) => updatePost(post.id, { content: event.target.value })} /><Hint>Separate paragraphs with a blank line. Start a section heading with ##.</Hint></Field>
+                <label className="toggle-row"><span>Published</span><input type="checkbox" checked={post.published} onChange={(event) => updatePost(post.id, { published: event.target.checked })} /></label>
+              </div>)}
+              <button className="add-button" onClick={() => update((current) => ({ ...current, posts: [...current.posts, { id: uid("post"), slug: `note-${current.posts.length + 1}`, title: "Article title", excerpt: "[Add a short summary of this note.]", date: "20XX.XX.XX", readingTime: "X min read", category: "Notes", content: "[Write your article here.]", published: false }] }))}>＋ 添加文章</button>
+            </EditorSection>}
 
             {tab === "projects" && <EditorSection title="精选项目" description="最多展示 12 个项目。">
               {data.projects.map((project, index) => <div className="repeat-card" key={project.id}>
@@ -173,7 +191,7 @@ export function Studio({ initialData, userName }: { initialData: SiteData; userN
                 <Field label="圆角风格"><select value={data.theme.radius} onChange={(event) => setTheme("radius", event.target.value)}><option value="sharp">锐利</option><option value="soft">柔和</option><option value="round">圆润</option></select></Field>
               </EditorSection>
               <EditorSection title="显示版块" description="关闭后该版块会从公开页面隐藏。">
-                {(Object.keys(data.sections) as Array<keyof SiteData["sections"]>).map((key) => <label className="toggle-row" key={key}><span>{{ about: "关于我", work: "项目作品", experience: "工作经历", services: "服务能力", contact: "联系信息" }[key]}</span><input type="checkbox" checked={data.sections[key]} onChange={(event) => update((current) => ({ ...current, sections: { ...current.sections, [key]: event.target.checked } }))} /></label>)}
+                {(Object.keys(data.sections) as Array<keyof SiteData["sections"]>).map((key) => <label className="toggle-row" key={key}><span>{{ writing: "博客文章", about: "关于我", work: "项目作品", experience: "工作经历", services: "服务能力", contact: "联系信息" }[key]}</span><input type="checkbox" checked={data.sections[key]} onChange={(event) => update((current) => ({ ...current, sections: { ...current.sections, [key]: event.target.checked } }))} /></label>)}
               </EditorSection>
             </>}
 

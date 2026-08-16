@@ -13,6 +13,8 @@ test("deployment bundle contains the portfolio experience", async () => {
   assert.equal(response.status, 200);
   const html = await response.text();
   assert.match(html, /Your Name/);
+  assert.match(html, /Recent writing/);
+  assert.match(html, /A title for your first note/);
   assert.match(html, /Selected work/);
   assert.match(html, /Edit site/);
   assert.doesNotMatch(html, /codex-preview/);

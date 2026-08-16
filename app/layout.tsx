@@ -22,21 +22,21 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase,
     title: "Your Name · Portfolio",
-    description: "A quiet, customizable portfolio for work, notes, and things in progress.",
+    description: "A quiet, customizable personal blog for notes, work, and things in progress.",
     icons: {
       icon: "/favicon.svg",
       shortcut: "/favicon.svg",
     },
     openGraph: {
       title: "Your Name · Portfolio",
-      description: "A simple place for your work and ideas.",
+      description: "A simple place for your writing, work, and ideas.",
       type: "website",
       images: host ? [{ url: "/og.png", width: 1200, height: 630 }] : undefined,
     },
     twitter: {
       card: "summary_large_image",
       title: "Your Name · Portfolio",
-      description: "A simple place for your work and ideas.",
+      description: "A simple place for your writing, work, and ideas.",
       images: host ? ["/og.png"] : undefined,
     },
   };
