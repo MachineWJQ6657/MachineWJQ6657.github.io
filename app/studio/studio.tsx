@@ -89,6 +89,11 @@ export function Studio({ initialData, userName }: { initialData: SiteData; userN
     setTab(next);
   };
 
+  const signOut = async () => {
+    await fetch("/api/admin/logout", { method: "POST" });
+    window.location.replace("/studio/login");
+  };
+
   const applyJson = () => {
     try {
       const next = sanitizeSiteData(JSON.parse(jsonDraft));
@@ -106,7 +111,7 @@ export function Studio({ initialData, userName }: { initialData: SiteData; userN
       <header className="studio-topbar">
         <div className="studio-brand"><span>PS</span><div><strong>Portfolio Studio</strong><small>为 {userName} 编辑</small></div></div>
         <div className={`save-status is-${saveState}`}><span />{saveState === "saving" ? "正在保存" : saveState === "saved" ? "已实时发布" : saveState === "error" ? "保存失败" : "所有更改自动保存"}</div>
-        <div className="studio-actions"><a href="/" target="_blank">打开网站 ↗</a></div>
+        <div className="studio-actions"><a href="/" target="_blank">打开网站 ↗</a><button type="button" onClick={signOut}>退出</button></div>
       </header>
 
       <div className="studio-body">

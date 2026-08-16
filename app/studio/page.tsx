@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { requireChatGPTUser } from "../chatgpt-auth";
+import { redirect } from "next/navigation";
 import { getSiteAdminUser } from "../../lib/admin-auth";
 import { DEFAULT_SITE } from "../../lib/site-content";
 import { Studio } from "./studio";
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default async function StudioPage() {
-  const user = await getSiteAdminUser();
-  const admin = user ?? await requireChatGPTUser("/studio");
+  const admin = await getSiteAdminUser();
+  if (!admin) redirect("/studio/login");
   return <Studio initialData={DEFAULT_SITE} userName={admin.displayName} />;
 }

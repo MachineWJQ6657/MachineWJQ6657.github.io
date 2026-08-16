@@ -1,5 +1,5 @@
 import { getSiteAdminUser } from "../../../lib/admin-auth";
-import { claimOrVerifyOwner, readSite, writeSite } from "../../../lib/site-store";
+import { readSite, writeSite } from "../../../lib/site-store";
 
 export const dynamic = "force-dynamic";
 
@@ -22,9 +22,6 @@ export async function PUT(request: Request) {
   try {
     const user = await getSiteAdminUser();
     if (!user) return Response.json({ error: "请先登录后再编辑" }, { status: 401 });
-
-    const allowed = await claimOrVerifyOwner(user.userId, user.email);
-    if (!allowed) return Response.json({ error: "此站点已有管理员" }, { status: 403 });
 
     const body = await request.text();
     if (body.length > 150_000) return Response.json({ error: "内容过大" }, { status: 413 });

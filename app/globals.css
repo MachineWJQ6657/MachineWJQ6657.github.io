@@ -154,8 +154,9 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .save-status.is-saved span { background: #2aaa5b; }
 .save-status.is-error span { background: #e25647; }
 @keyframes pulse { 50% { opacity: .35; } }
-.studio-actions { justify-self: end; }
-.studio-actions a { display: inline-flex; padding: 9px 13px; border-radius: 8px; background: #18211d; color: white; font-size: 11px; }
+.studio-actions { justify-self: end; display: flex; gap: 7px; }
+.studio-actions a, .studio-actions button { display: inline-flex; align-items: center; padding: 9px 13px; border: 0; border-radius: 8px; background: #18211d; color: white; font: 500 11px inherit; cursor: pointer; }
+.studio-actions button { background: #e5e9e5; color: #39413d; }
 .studio-body { height: calc(100vh - 68px); display: grid; grid-template-columns: 410px 1fr; }
 .studio-panel { background: #fbfcfa; border-right: 1px solid var(--studio-line); overflow: auto; }
 .studio-tabs { position: sticky; top: 0; z-index: 5; display: flex; gap: 2px; padding: 12px 16px 0; background: #fbfcfa; border-bottom: 1px solid var(--studio-line); overflow-x: auto; }
@@ -435,3 +436,16 @@ html[data-theme="dark"] .article-shell {
   transition-duration: .24s;
   transition-timing-function: ease;
 }
+
+.studio-login-shell { min-height: 100vh; display: grid; place-items: center; padding: 24px; background: #f1efe8; color: #171815; }
+.studio-login-card { width: min(100%, 460px); padding: 48px; border: 1px solid #cbc8bd; border-radius: 24px; background: #fbfaf6; box-shadow: 0 22px 70px rgba(30, 31, 27, .1); }
+.studio-login-card h1 { margin: 14px 0 12px; font: italic 400 52px/1 Georgia, "Times New Roman", serif; letter-spacing: -.05em; }
+.studio-login-card > p:not(.eyebrow) { margin: 0; color: #66685f; line-height: 1.6; }
+.studio-login-card > a { display: inline-block; margin-top: 26px; color: #55574f; font-size: 12px; }
+.studio-login-form { display: grid; gap: 12px; margin-top: 32px; }
+.studio-login-form label { font-size: 11px; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; }
+.studio-login-form input { width: 100%; min-height: 48px; padding: 0 14px; border: 1px solid #c7c4b9; border-radius: 10px; background: #fff; color: #171815; font: inherit; }
+.studio-login-form input:focus { outline: 2px solid #171815; outline-offset: 2px; }
+.studio-login-form button { min-height: 48px; border: 0; border-radius: 10px; background: #171815; color: #fff; font: 650 12px var(--font-geist-mono), monospace; cursor: pointer; }
+.studio-login-form button:disabled { opacity: .55; cursor: wait; }
+.studio-login-form [role="alert"] { margin: 2px 0 0; color: #9b2d22; font-size: 12px; }

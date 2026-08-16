@@ -2,7 +2,6 @@ import { env } from "cloudflare:workers";
 import { DEFAULT_SITE, sanitizeSiteData, type SiteData } from "./site-content";
 
 type SiteRow = { content: string; version: number; updated_at: string };
-type OwnerRow = { user_id: string; email: string };
 
 let schemaReady: Promise<void> | null = null;
 
@@ -44,17 +43,6 @@ export async function readSite(): Promise<{ data: SiteData; version: number; upd
   } catch {
     return { data: DEFAULT_SITE, version: row.version, updatedAt: row.updated_at };
   }
-}
-
-export async function claimOrVerifyOwner(userId: string, email: string) {
-  await ensureSiteSchema();
-  const db = getD1();
-  let owner = await db.prepare("SELECT user_id, email FROM site_owners LIMIT 1").first<OwnerRow>();
-  if (!owner) {
-    await db.prepare("INSERT OR IGNORE INTO site_owners (user_id, email) VALUES (?, ?)").bind(userId, email).run();
-    owner = await db.prepare("SELECT user_id, email FROM site_owners LIMIT 1").first<OwnerRow>();
-  }
-  return owner?.user_id === userId;
 }
 
 export async function writeSite(value: unknown) {
