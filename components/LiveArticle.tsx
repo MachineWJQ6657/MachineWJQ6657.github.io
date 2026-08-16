@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import type { SiteData, SitePost } from "../lib/site-content";
 import { getSiteStyle } from "./PortfolioView";
+import { ThemeToggle } from "./ThemeToggle";
 
 export function LiveArticle({ initialData, slug }: { initialData: SiteData; slug: string }) {
   const [data, setData] = useState(initialData);
@@ -35,7 +36,7 @@ function ArticleView({ data, post }: { data: SiteData; post: SitePost }) {
   const blocks = post.content.split(/\n\s*\n/).map((block) => block.trim()).filter(Boolean);
   return (
     <main className="article-shell" style={getSiteStyle(data)}>
-      <nav className="article-nav"><a href="/">← {data.basics.name}</a><span>{data.basics.initials}</span></nav>
+      <nav className="article-nav"><a href="/">← {data.basics.name}</a><div><ThemeToggle /><span>{data.basics.initials}</span></div></nav>
       <header className="article-header">
         <div className="post-meta"><span>{post.category}</span><time>{post.date}</time><span>{post.readingTime}</span></div>
         <h1>{post.title}</h1>
@@ -52,5 +53,5 @@ function ArticleView({ data, post }: { data: SiteData; post: SitePost }) {
 }
 
 function MissingArticle({ data }: { data: SiteData }) {
-  return <main className="article-shell" style={getSiteStyle(data)}><nav className="article-nav"><a href="/">← Home</a><span>{data.basics.initials}</span></nav><header className="article-header"><p className="eyebrow">Not found</p><h1>This note is no longer published.</h1></header></main>;
+  return <main className="article-shell" style={getSiteStyle(data)}><nav className="article-nav"><a href="/">← Home</a><div><ThemeToggle /><span>{data.basics.initials}</span></div></nav><header className="article-header"><p className="eyebrow">Not found</p><h1>This note is no longer published.</h1></header></main>;
 }

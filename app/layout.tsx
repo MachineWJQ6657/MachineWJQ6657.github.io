@@ -48,7 +48,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `try{const t=localStorage.getItem("site-theme");if(t==="dark"||t==="light")document.documentElement.dataset.theme=t}catch{}` }} />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
       </body>

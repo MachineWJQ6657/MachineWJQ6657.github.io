@@ -190,6 +190,14 @@ export function Studio({ initialData, userName }: { initialData: SiteData; userN
                 <ColorField label="第二强调色" value={data.theme.accent2} onChange={(value) => setTheme("accent2", value)} />
                 <Field label="圆角风格"><select value={data.theme.radius} onChange={(event) => setTheme("radius", event.target.value)}><option value="sharp">锐利</option><option value="soft">柔和</option><option value="round">圆润</option></select></Field>
               </EditorSection>
+              <EditorSection title="深色模式配色" description="访客切换到深色模式时使用这一组颜色。">
+                <ColorField label="深色背景" value={data.theme.darkBackground} onChange={(value) => setTheme("darkBackground", value)} />
+                <ColorField label="深色卡片" value={data.theme.darkSurface} onChange={(value) => setTheme("darkSurface", value)} />
+                <ColorField label="深色主要文字" value={data.theme.darkText} onChange={(value) => setTheme("darkText", value)} />
+                <ColorField label="深色辅助文字" value={data.theme.darkMuted} onChange={(value) => setTheme("darkMuted", value)} />
+                <ColorField label="深色强调色" value={data.theme.darkAccent} onChange={(value) => setTheme("darkAccent", value)} />
+                <ColorField label="深色第二强调色" value={data.theme.darkAccent2} onChange={(value) => setTheme("darkAccent2", value)} />
+              </EditorSection>
               <EditorSection title="显示版块" description="关闭后该版块会从公开页面隐藏。">
                 {(Object.keys(data.sections) as Array<keyof SiteData["sections"]>).map((key) => <label className="toggle-row" key={key}><span>{{ writing: "博客文章", about: "关于我", work: "项目作品", experience: "工作经历", services: "服务能力", contact: "联系信息" }[key]}</span><input type="checkbox" checked={data.sections[key]} onChange={(event) => update((current) => ({ ...current, sections: { ...current.sections, [key]: event.target.checked } }))} /></label>)}
               </EditorSection>

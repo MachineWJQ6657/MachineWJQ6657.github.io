@@ -5,6 +5,12 @@ export type SiteTheme = {
   muted: string;
   accent: string;
   accent2: string;
+  darkBackground: string;
+  darkSurface: string;
+  darkText: string;
+  darkMuted: string;
+  darkAccent: string;
+  darkAccent2: string;
   radius: "sharp" | "soft" | "round";
 };
 
@@ -211,6 +217,12 @@ export const DEFAULT_SITE: SiteData = {
     muted: "#747a74",
     accent: "#d8e3d4",
     accent2: "#737d71",
+    darkBackground: "#111411",
+    darkSurface: "#171b17",
+    darkText: "#eef1e9",
+    darkMuted: "#989f96",
+    darkAccent: "#34443a",
+    darkAccent2: "#b6c2b3",
     radius: "sharp",
   },
 };
@@ -347,6 +359,12 @@ export function sanitizeSiteData(value: unknown): SiteData {
       muted: color(theme.muted, DEFAULT_SITE.theme.muted),
       accent: color(theme.accent, DEFAULT_SITE.theme.accent),
       accent2: color(theme.accent2, DEFAULT_SITE.theme.accent2),
+      darkBackground: color(theme.darkBackground, DEFAULT_SITE.theme.darkBackground),
+      darkSurface: color(theme.darkSurface, DEFAULT_SITE.theme.darkSurface),
+      darkText: color(theme.darkText, DEFAULT_SITE.theme.darkText),
+      darkMuted: color(theme.darkMuted, DEFAULT_SITE.theme.darkMuted),
+      darkAccent: color(theme.darkAccent, DEFAULT_SITE.theme.darkAccent),
+      darkAccent2: color(theme.darkAccent2, DEFAULT_SITE.theme.darkAccent2),
       radius: ["sharp", "soft", "round"].includes(String(theme.radius)) ? (theme.radius as SiteTheme["radius"]) : DEFAULT_SITE.theme.radius,
     },
   };

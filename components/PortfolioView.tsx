@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import type { SiteData } from "../lib/site-content";
+import { ThemeToggle } from "./ThemeToggle";
 
 export type SiteStyle = CSSProperties & {
   "--site-bg": string;
@@ -8,6 +9,12 @@ export type SiteStyle = CSSProperties & {
   "--site-muted": string;
   "--site-accent": string;
   "--site-accent-2": string;
+  "--site-dark-bg": string;
+  "--site-dark-surface": string;
+  "--site-dark-text": string;
+  "--site-dark-muted": string;
+  "--site-dark-accent": string;
+  "--site-dark-accent-2": string;
   "--site-radius": string;
 };
 
@@ -19,6 +26,12 @@ export function getSiteStyle(data: SiteData): SiteStyle {
     "--site-muted": data.theme.muted,
     "--site-accent": data.theme.accent,
     "--site-accent-2": data.theme.accent2,
+    "--site-dark-bg": data.theme.darkBackground,
+    "--site-dark-surface": data.theme.darkSurface,
+    "--site-dark-text": data.theme.darkText,
+    "--site-dark-muted": data.theme.darkMuted,
+    "--site-dark-accent": data.theme.darkAccent,
+    "--site-dark-accent-2": data.theme.darkAccent2,
     "--site-radius": data.theme.radius === "sharp" ? "0px" : data.theme.radius === "round" ? "28px" : "12px",
   };
 }
@@ -40,7 +53,7 @@ export function PortfolioView({ data, preview = false }: { data: SiteData; previ
           {data.sections.work && <a href="#work">Work</a>}
           {data.sections.contact && <a href="#contact">Contact</a>}
         </div>
-        <p className="nav-location">{data.basics.location}</p>
+        <div className="nav-actions"><p className="nav-location">{data.basics.location}</p><ThemeToggle /></div>
       </nav>
 
       <header className="journal-hero" id="top">

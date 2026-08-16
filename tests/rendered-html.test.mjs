@@ -17,5 +17,7 @@ test("deployment bundle contains the portfolio experience", async () => {
   assert.match(html, /A title for your first note/);
   assert.match(html, /Selected work/);
   assert.match(html, /Edit site/);
+  assert.match(html, /Switch to dark mode/);
+  assert.match(html, /--site-dark-bg/);
   assert.doesNotMatch(html, /codex-preview/);
 });
